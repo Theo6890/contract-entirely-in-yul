@@ -23,7 +23,11 @@ contract MinimalVaultTest is Test {
     /*//////////////////////////////////////////////////////////////
                                  BASIC ATTRIBUTES
     //////////////////////////////////////////////////////////////*/
-    function test_truthy() public {
-        assertTrue(true);
+    function test_deposit_checkDepositOf() public {
+        vm.prank(ALICE);
+
+        instance.deposit{value: 1 ether}();
+
+        assertEq(instance.depositsOf(ALICE), 1 ether);
     }
 }
