@@ -18,7 +18,19 @@ contract MinimalVault {
     /*//////////////////////////////////////////////////////////////
                         DEPOSIT/WITHDRAWAL LOGIC
     //////////////////////////////////////////////////////////////*/
-    function deposit() public payable {}
+    function deposit() public payable {
+        uint256 amount;
+
+        assembly {
+            amount := callvalue()
+            // 0x00 - 0x3f: scratch space for hashing methods (64 bytes)
+            mstore(0x00, caller())
+            mstore(0x20, depositsOf.slot)
+
+            let depositSlot := keccak256(0x00, 0x40)
+            sstore(depositSlot, amount)
+        }
+    }
 
     function withdraw() public {}
 }
