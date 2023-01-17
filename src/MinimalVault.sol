@@ -21,6 +21,7 @@ contract MinimalVault {
     function deposit() public payable {
         uint256 amount;
 
+        // update depositsOf
         assembly {
             amount := callvalue()
             // 0x00 - 0x3f: scratch space for hashing methods (64 bytes)
@@ -29,6 +30,12 @@ contract MinimalVault {
 
             let depositSlot := keccak256(0x00, 0x40)
             sstore(depositSlot, amount)
+        }
+
+        // update totalETHDeposited
+        assembly {
+            let oldTotal := sload(totalETHDeposited.slot)
+            sstore(totalETHDeposited.slot, add(oldTotal, amount))
         }
     }
 
