@@ -12,8 +12,9 @@ contract MinimalVault {
     /*//////////////////////////////////////////////////////////////
                                  EVENTS
     //////////////////////////////////////////////////////////////*/
-    event Deposit(address indexed depositor, uint256 indexed amount);
-    event Withdraw(address indexed depositor, uint256 indexed amount);
+    /// @dev avoid using `constant` to have storage access in YUL
+    bytes32 public depositEventSig = keccak256("Deposit(address,uint256)");
+    bytes32 public withdrawEventSig = keccak256("Withdraw(address,uint256)");
 
     /*//////////////////////////////////////////////////////////////
                         DEPOSIT/WITHDRAWAL LOGIC
@@ -36,6 +37,12 @@ contract MinimalVault {
         assembly {
             let oldTotal := sload(totalETHDeposited.slot)
             sstore(totalETHDeposited.slot, add(oldTotal, amount))
+        }
+
+        // emit Deposit event
+        assembly {
+            // no offet, no size, event signature, index 2 values as topics
+            log3(0x00, 0x00, sload(2), caller(), amount)
         }
     }
 
