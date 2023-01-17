@@ -52,4 +52,22 @@ contract MinimalVaultTest is Test {
 
         assertEq(instance.totalETHDeposited(), 1 ether);
     }
+
+    function test_deposit_withEvent_Deposit() public {
+        vm.prank(ALICE);
+        vm.recordLogs();
+
+        instance.deposit{value: 1 ether}();
+
+        ///@dev events generated with `log3`, we can use `vm.expectEmit` & `emit`
+        Vm.Log[] memory entries = vm.getRecordedLogs();
+        // only Deposit events registered
+        assertEq(entries.length, 1);
+        assertEq(entries[0].topics[0], instance.depositEventSig());
+        assertEq(address(uint160(uint256(entries[0].topics[1]))), ALICE);
+        assertEq(entries[0].topics[2], bytes32(uint256(1 ether)));
+
+        //// If an element is not indexed, it not in `topics` but `data`
+        // assertEq(abi.decode(entries[1].data, (string)), string(testData1));
+    }
 }
