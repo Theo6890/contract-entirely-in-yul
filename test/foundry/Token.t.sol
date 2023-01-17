@@ -23,6 +23,20 @@ contract MinimalVaultTest is Test {
     /*//////////////////////////////////////////////////////////////
                                  BASIC ATTRIBUTES
     //////////////////////////////////////////////////////////////*/
+    function test_constant_depositEventSig() public {
+        assertEq(
+            instance.depositEventSig(),
+            0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c
+        );
+    }
+
+    function test_constant_withdrawEventSig() public {
+        assertEq(
+            instance.withdrawEventSig(),
+            0x884edad9ce6fa2440d8a54cc123490eb96d2768479d49ff9c7366125a9424364
+        );
+    }
+
     function test_deposit_checkDepositOf() public {
         vm.prank(ALICE);
 
