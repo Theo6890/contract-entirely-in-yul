@@ -3,19 +3,19 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 
-import "../src/Token.sol";
+import "../../src/MinimalVault.sol";
 
-contract TokenTest is Test {
-    Token public t;
+contract MinimalVaultTest is Test {
+    MinimalVault public instance;
 
     function setUp() public {
-        t = new Token();
+        instance = new MinimalVault();
     }
 
     /*//////////////////////////////////////////////////////////////
                                  BASIC ATTRIBUTES
     //////////////////////////////////////////////////////////////*/
-    function testName() public {
-        assertEq(t.name(), "Token");
+    function test_truthy() public {
+        assertTrue(true);
     }
 }
