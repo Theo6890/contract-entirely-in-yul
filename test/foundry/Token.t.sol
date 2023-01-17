@@ -30,4 +30,12 @@ contract MinimalVaultTest is Test {
 
         assertEq(instance.depositsOf(ALICE), 1 ether);
     }
+
+    function test_deposit_checkTotalETHDeposited() public {
+        vm.prank(ALICE);
+
+        instance.deposit{value: 1 ether}();
+
+        assertEq(instance.totalETHDeposited(), 1 ether);
+    }
 }
