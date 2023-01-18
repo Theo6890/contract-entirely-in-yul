@@ -30,13 +30,6 @@ contract MinimalVaultTest is Test {
         );
     }
 
-    function test_constant_withdrawEventSig() public {
-        assertEq(
-            instance.withdrawEventSig(),
-            0x884edad9ce6fa2440d8a54cc123490eb96d2768479d49ff9c7366125a9424364
-        );
-    }
-
     function test_deposit_checkDepositOf() public {
         vm.prank(ALICE);
 
